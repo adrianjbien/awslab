@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EC2 Launcher</title>
+</head>
+<body>
+
+<h1>Uruchom instancję EC2</h1>
+
+<button onclick="startInstance()">Start EC2</button>
+
+<pre id="output"></pre>
+
+<script>
+    function startInstance() {
+        fetch('/lab1_3')
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('output').innerText = data;
+            })
+            .catch(err => {
+                document.getElementById('output').innerText = "Error: " + err;
+            });
+    }
+</script>
+
+</body>
+</html>
