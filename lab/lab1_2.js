@@ -39,10 +39,7 @@ var task = function (request, callback) {
 
         console.log("PARSED:", result);
 
-        callback(request, {
-            status: 200,
-            body: JSON.stringify(result, null, 2)
-        });
+        callback(null, result);
     });
 };
 
