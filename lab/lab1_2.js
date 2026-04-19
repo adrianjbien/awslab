@@ -7,39 +7,30 @@ var ec2 = new AWS.EC2();
 
 var task = function (request, callback) {
 
-    var params = {
-        // możesz dodać filtry jeśli chcesz, np. tylko running:
-        // Filters: [{ Name: "instance-state-name", Values: ["running"] }]
-    };
+    console.log("AWS request started");
 
-    ec2.describeInstances(params, function (err, data) {
+    var ec2 = new AWS.EC2();
+
+    ec2.describeInstances({}, function (err, data) {
+
         if (err) {
-            console.log(err, err.stack);
+            console.log("AWS ERROR:", err);
+
             callback(request, {
                 status: 500,
                 body: JSON.stringify(err)
             });
-        } else {
-            // upraszczamy odpowiedź (czytelniejsze dane)
-            var instances = [];
-
-            data.Reservations.forEach(reservation => {
-                reservation.Instances.forEach(instance => {
-                    instances.push({
-                        InstanceId: instance.InstanceId,
-                        State: instance.State.Name,
-                        Type: instance.InstanceType,
-                        PublicIP: instance.PublicIpAddress,
-                        LaunchTime: instance.LaunchTime
-                    });
-                });
-            });
-
-            callback(request, {
-                status: 200,
-                body: JSON.stringify(instances, null, 2)
-            });
+            return;
         }
+
+        console.log("AWS DATA:", JSON.stringify(data));
+
+        callback(request, {
+            status: 200,
+            body: JSON.stringify(data, null, 2)
+        });
+
+        console.log("AWS request finished");
     });
 };
 
