@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EC2 Launcher</title>
+</head>
+<body>
+
+<h1>Zmień capacity w ASG</h1>
+
+
+<label for="capacity">Capacity:</label>
+<input type="text" id="capacity" name="capacity"><br><br>
+
+
+<button onclick="startInstance()">Potwierdz</button>
+
+<pre id="output"></pre>
+
+<script>
+    function startInstance() {
+        const capacity = document.getElementById('capacity').value;
+
+        fetch('/lab3_2?capacity=' + capacity)
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('output').innerText = data;
+            })
+            .catch(err => {
+                document.getElementById('output').innerText = "Error: " + err;
+            });
+    }
+</script>
+
+</body>
+</html>
